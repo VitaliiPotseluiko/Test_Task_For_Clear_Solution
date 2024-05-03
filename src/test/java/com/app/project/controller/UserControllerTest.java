@@ -201,6 +201,7 @@ class UserControllerTest {
     @Test
     public void deleteUser_WithExistingId_Ok() throws Exception {
         Long id = 6L;
+        int expectedSize = Storage.storage.size() - 1;
         UserResponseDto expected = new UserResponseDto()
                 .setId(id)
                 .setEmail("User6@gmail.com")
@@ -217,7 +218,7 @@ class UserControllerTest {
                 UserResponseDto.class);
 
         assertEquals(expected, actual);
-        assertEquals(8, Storage.storage.size());
+        assertEquals(expectedSize, Storage.storage.size());
     }
 
     @Test

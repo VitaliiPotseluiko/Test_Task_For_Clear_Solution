@@ -175,5 +175,4 @@ class UserServiceImplTest {
         assertEquals("IncorrectArgumentException", actual.getClass().getSimpleName());
         assertEquals("Argument 'from' must be greater than 'to'", actual.getMessage());
     }
-
 }

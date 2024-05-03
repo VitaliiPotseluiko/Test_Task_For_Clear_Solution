@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,16 +29,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto create(UserRequestDto requestDto) {
-        if (LocalDate.now().minusYears(acceptableAge).isAfter(requestDto.getBirthDate())
-                || LocalDate.now().minusYears(acceptableAge).isEqual(requestDto.getBirthDate())) {
+        if (LocalDate.now().minusYears(acceptableAge).isBefore(requestDto.getBirthDate())) {
+            throw new UserRegistrationException("User can't be registered, cause he is younger than 18");
+        }
             User user = mapper.toModel(requestDto);
             Long id = Storage.storage.size() + 1L + deletedElementNumbers;
             user.setId(id);
             Storage.storage.put(user.getId(), user);
             return mapper.toDto(user);
-        } else {
-            throw new UserRegistrationException("User can't be registered, cause he is younger than 18");
-        }
     }
 
     @Override
@@ -89,10 +89,9 @@ public class UserServiceImpl implements UserService {
     }
 
     private User findUserById(Long id) {
-        if (Storage.storage.containsKey(id)) {
-            return Storage.storage.get(id);
-        } else {
+        if (!Storage.storage.containsKey(id)) {
             throw new EntityNotFoundException("Can't find user by id = " + id);
         }
+        return Storage.storage.get(id);
     }
 }
