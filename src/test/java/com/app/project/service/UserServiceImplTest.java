@@ -2,7 +2,6 @@ package com.app.project.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.app.project.dto.UpdateUserRequestDto;
 import com.app.project.dto.UserRequestDto;
@@ -18,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
-import java.util.Objects;
 
 class UserServiceImplTest {
     private static final int USERS_NUMBERS = 9;
